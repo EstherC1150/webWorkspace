@@ -1,6 +1,7 @@
 // store.js
 
 import { createStore } from "vuex";
+import createPersistedState from "vuex-persistedstate"; //추가되는 기능
 
 const store = createStore({
   state() {
@@ -21,7 +22,7 @@ const store = createStore({
     },
   },
   mutations: {
-    //동기식
+    //동기식 & state에만 접근할 수 있음
     increment(state) {
       state.count++;
     },
@@ -29,11 +30,21 @@ const store = createStore({
       state.cart.push(info);
     },
   },
-  //   actions: {
-  //     addProduct(state, info) {
-
-  //     }
-  //   },
+  actions: {
+    //우리가 정의한 전체가 넘어온다
+    //필요하다면 다른 내부의 옵션에도 접근이 가능
+    addProduct(context, info) {
+      //화면에 뜨는게 조금 딜레이 걸리는 것처럼 느낀다
+      setTimeout(() => {
+        context.commit("addProduct", info);
+      }, 1000);
+    },
+  },
+  plugins: [
+    createPersistedState({
+      paths: ["cart"],
+    }),
+  ],
 });
 
 export default store;
