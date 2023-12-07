@@ -34,6 +34,11 @@ app.get("/emps/:no", async (req, res) => {
   res.send(list[0]);
 });
 
+app.get("/depts", async (req, res) => {
+  let list = await mysql.query("dept");
+  res.send(list);
+});
+
 const empTable = ["emp_no", "first_name", "last_name", "gender", "hire_date"];
 const deptEmpTable = ["emp_no", "dept_no", "from_date", "to_date"];
 const salariesTable = ["emp_no", "salary", "from_date", "to_date"];
