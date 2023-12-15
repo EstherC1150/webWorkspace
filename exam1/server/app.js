@@ -7,6 +7,9 @@ app.use(
     limit: "50mb",
   })
 );
+// 쿼리 스트링 사용해서 할 때 일단 파써 하나 더 만들어주기
+// 가장 기본적인 형태로 할 거기 때문에 일단은 false
+app.use(express.urlencoded({ extended: false }));
 
 const server = app.listen(3000, () => {
   console.log("Server started. port 3000.");
@@ -41,4 +44,14 @@ app.put("/boards/:bno", async (request, response) => {
   //그런데 서로 다른 타입
   let data = [request.body.param, request.params.bno];
   response.send(await db.connection("boardUpdate", data));
+});
+
+// node환경에서 쿼리스트링 처리해보기 ↓
+// 필요하다면 결합해서 써도 됨
+//해당 게시글의 댓글조회
+app.get("/comments", async (request, res) => {
+  //qeurystring => ?key=value&key=value...
+  //우리가 넘겨줄 키값 bno
+  let data = request.query.bno;
+  res.send(await db.connection("commentList", data));
 });

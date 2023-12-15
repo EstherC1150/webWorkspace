@@ -9,4 +9,6 @@ module.exports = {
                 WHERE no = ?`,
   boardInsert: `INSERT INTO t_board_board SET ? `,
   boardUpdate: `UPDATE t_board_board SET ? WHERE no = ? `,
+  commentList: `SELECT no, writer, content, created_date
+                FROM t_comment_board WHERE bno = ?`,
 };

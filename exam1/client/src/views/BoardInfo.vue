@@ -45,10 +45,17 @@
         </tbody>
       </table>
     </div>
+    <div class="row">
+      <!-- 해당 게시글의 댓글이 있다면 -->
+      <CommentList v-if="boardInfo.comment > 0" v-bind:bno="boardInfo.no" />
+      <!-- 해당 게시글에 댓글이 존재하지 않는다면 -->
+      <div v-else class="card text-center">댓글 없음</div>
+    </div>
   </div>
 </template>
 <script>
 import axios from "axios";
+import CommentList from "../components/commentList.vue";
 
 export default {
   data() {
@@ -56,6 +63,9 @@ export default {
       searchNo: "",
       boardInfo: {},
     };
+  },
+  components: {
+    CommentList,
   },
   created() {
     //BoardList에서 넘기는 값이
